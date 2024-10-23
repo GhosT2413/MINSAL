@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicamentos</title>
+    <link rel="stylesheet" href="{% static 'css/paciente.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Lista de Medicamentos</h1>
+
+        <form method="POST" class="form-paciente">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="tipo">Tipo:</label>
+                {{ form.tipo }}
+
+                <label for="nombre">Nombre:</label>
+                {{ form.nombre }}
+
+                <label for="cantidad">Cantidad:</label>
+                {{ form.cantidad }}
+
+                <label for="caducidad">Caducidad:</label>
+                {{ form.caducidad }}
+
+                <label for="descripcion">Descripcion:</label>
+                {{ form.descripcion }}
+
+            </div>
+            <div class="form-actions">
+                {% if agregar_paciente %}
+                    <button type="submit" class="btn">Actualizar Medicamentos</button>
+                    <input type="hidden" name="id_update" value="{{ agregar_paciente.id }}">
+                {% else %}
+                    <button type="submit" class="btn">Agregar Medicamentos</button>
+                {% endif %}
+            </div>
+        </form>
+
+        <hr>
+
+        <h2>Medicamentos Registrados</h2>
+
+        <table class="table">
+            <thead>
+                <tr> 
+                    <th>Tipo</th>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Caducidad</th>
+                    <th>Descripcion</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paciente in pacientes %}
+                <tr>
+                    <td>{{ paciente.tipo }}</td>
+                    <td>{{ paciente.nombre }}</td>
+                    <td>{{ paciente.cantidad }}</td>
+                    <td>{{ paciente.caducidad }}</td>
+                    <td>{{ paciente.descripcion }}</td>
+                    <td>
+                        <a href="?id_update={{ paciente.id }}" class="btn-action">Editar</a> |
+                        <a href="?id_delete={{ paciente.id }}" class="btn-action" onclick="return confirm('¿Estás seguro de eliminar este medicamento?')">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="btn-container">
+            <a href="{% url 'inicio' %}" class="btn btn-volver">Volver</a>
+        </div>
+    </div>
+</body>
+
+</html>

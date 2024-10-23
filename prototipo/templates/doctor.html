@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctores</title>
+    <link rel="stylesheet" href="{% static 'css/doctor.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Lista de Doctores</h1>
+
+        <form method="POST" class="form-doctor">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                {{ form.nombre }}
+
+                <label for="apellido">Apellido:</label>
+                {{ form.apellido }}
+
+                <label for="edad">Edad:</label>
+                {{ form.edad }}
+
+                <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                {{ form.fecha_nacimiento }}
+
+                <label for="genero">Género:</label>
+                {{ form.genero }}
+
+                <label for="direccion">Dirección:</label>
+                {{ form.direccion }}
+
+                <label for="telefono">Teléfono:</label>
+                {{ form.telefono }}
+
+                <label for="email">Email:</label>
+                {{ form.email }}
+            </div>
+            <div class="form-actions">
+                {% if agregar_doctor %}
+                    <button type="submit" class="btn">Actualizar Doctor</button>
+                    <input type="hidden" name="id_update" value="{{ agregar_doctor.id }}">
+                {% else %}
+                    <button type="submit" class="btn">Agregar Doctor</button>
+                {% endif %}
+            </div>
+        </form>
+
+        <hr>
+
+        <h2>Doctores Registrados</h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Edad</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Género</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doctor in doctores %}
+                <tr>
+                    <td>{{ doctor.nombre }}</td>
+                    <td>{{ doctor.apellido }}</td>
+                    <td>{{ doctor.edad }}</td>
+                    <td>{{ doctor.fecha_nacimiento }}</td>
+                    <td>{{ doctor.get_genero_display }}</td>
+                    <td>{{ doctor.direccion }}</td>
+                    <td>{{ doctor.telefono }}</td>
+                    <td>{{ doctor.email }}</td>
+                    <td>
+                        <a href="?id_update={{ doctor.id }}" class="btn-action">Editar</a> |
+                        <a href="?id_delete={{ doctor.id }}" class="btn-action" onclick="return confirm('¿Estás seguro de eliminar este paciente?')">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="btn-container">
+            <a href="{% url 'inicio' %}" class="btn btn-volver">Volver</a>
+        </div>
+    </div>
+</body>
+
+</html>

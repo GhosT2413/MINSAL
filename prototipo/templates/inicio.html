@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header">
+            <h1>Ministerio de Salud</h1>
+        </div>
+    </header>
+
+    <div class="sidebar">
+        <h2>Navegación</h2>
+        <a href="{% url 'paciente' %}">Lista de Medicamentos</a>
+        <a href="{% url 'difunto' %}">Ficha de Difuntos</a>
+        <a href="{% url 'hospital' %}">Hospitales</a>
+        <a href="{% url 'doctor' %}">Doctores</a>
+    </div>
+
+    <main>
+        <div class="welcome-message">
+            <h2>Bienvenido al Sistema de Gestión de Salud</h2>
+            <p>Seleccione una opción en la barra lateral para comenzar.</p>
+        </div>
+    </main>
+</body>
+</html>

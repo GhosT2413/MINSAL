@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospitales</title>
+    <link rel="stylesheet" href="{% static 'css/hospital.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Lista de Hospitales</h1>
+
+        <form method="POST" class="form-hospital">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="nombre_hospital">Nombre del Hospital:</label>
+                {{ form.hospital }}
+
+                <label for="jefe_hospital">Jefe del Hospital:</label>
+                {{ form.jefe_hospital }}
+
+                <label for="direccion">Dirección:</label>
+                {{ form.direccion }}
+
+                <label for="telefono">Teléfono:</label>
+                {{ form.telefono }}
+            </div>
+            <div class="form-actions">
+                {% if agregar_hospital %}
+                    <button type="submit" class="btn">Actualizar Hospital</button>
+                    <input type="hidden" name="id_update" value="{{ agregar_hospital.id }}">
+                {% else %}
+                    <button type="submit" class="btn">Agregar Hospital</button>
+                {% endif %}
+            </div>
+        </form>
+
+        <hr>
+
+        <h2>Hospitales Registrados</h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre del Hospital</th>
+                    <th>Jefe del Hospital</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hospital in hospitales %}
+                <tr>
+                    <td>{{ hospital.hospital }}</td>
+                    <td>{{ hospital.jefe_hospital }}</td>
+                    <td>{{ hospital.direccion }}</td>
+                    <td>{{ hospital.telefono }}</td>
+                    <td>
+                        <a href="?id_update={{ hospital.id }}" class="btn-action">Editar</a> |
+                        <a href="?id_delete={{ hospital.id }}" class="btn-action" onclick="return confirm('¿Estás seguro de eliminar este hospital?')">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="btn-container">
+            <a href="{% url 'inicio' %}" class="btn btn-volver">Volver</a>
+        </div>
+    </div>
+</body>
+
+</html>

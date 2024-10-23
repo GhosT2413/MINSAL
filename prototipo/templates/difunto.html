@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Difuntos</title>
+    <link rel="stylesheet" href="{% static 'css/difunto.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Lista de Difuntos</h1>
+
+        <form method="POST" class="form-difunto">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                {{ form.nombre }}
+
+                <label for="apellido">Apellido:</label>
+                {{ form.apellido }}
+
+                <label for="edad">Edad:</label>
+                {{ form.edad }}
+
+                <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                {{ form.fecha_nacimiento }}
+
+                <label for="fecha_nacimiento">Fecha de Fallecimiento:</label>
+                {{ form.fecha_fallecimiento }}
+
+                <label for="fecha_nacimiento">Hora de muerte:</label>
+                {{ form.hora_muerte }}
+
+                <label for="genero">Género:</label>
+                {{ form.genero }}
+
+                <label for="direccion">Dirección:</label>
+                {{ form.direccion }}
+
+                <label for="telefono">Teléfono:</label>
+                {{ form.telefono }}
+
+                <label for="email">Email:</label>
+                {{ form.email }}
+            </div>
+            <div class="form-actions">
+                {% if agregar_difunto %}
+                    <button type="submit" class="btn">Actualizar Difunto</button>
+                    <input type="hidden" name="id_update" value="{{ agregar_difunto.id }}">
+                {% else %}
+                    <button type="submit" class="btn">Agregar Difunto</button>
+                {% endif %}
+            </div>
+        </form>
+
+        <hr>
+
+        <h2>Difuntos Registrados</h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Edad</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Fecha de Fallecimiento</th>
+                    <th>Hora de muerte</th>
+                    <th>Género</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for difunto in difuntos %}
+                <tr>
+                    <td>{{ difunto.nombre }}</td>
+                    <td>{{ difunto.apellido }}</td>
+                    <td>{{ difunto.edad }}</td>
+                    <td>{{ difunto.fecha_nacimiento }}</td>
+                    <td>{{ difunto.fecha_fallecimiento }}</td>
+                    <td>{{ difunto.hora_muerte }}</td>
+                    <td>{{ difunto.get_genero_display }}</td>
+                    <td>{{ difunto.direccion }}</td>
+                    <td>{{ difunto.telefono }}</td>
+                    <td>{{ difunto.email }}</td>
+                    <td>
+                        <a href="?id_update={{ difunto.id }}" class="btn-action">Editar</a> |
+                        <a href="?id_delete={{ difunto.id }}" class="btn-action" onclick="return confirm('¿Estás seguro de eliminar este difunto?')">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="btn-container">
+            <a href="{% url 'inicio' %}" class="btn btn-volver">Volver</a>
+        </div>
+    </div>
+</body>
+
+</html>
